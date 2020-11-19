@@ -12,7 +12,7 @@ baconFile = open(bacon_file_name,'r')
 content = baconFile.read()
 baconFile.close()
 
-print('\n\nv1 - read\n')
+print('\n\nv1 - read and close\n')
 print(content)
 
 text = ['Hello, world!\n']
@@ -39,12 +39,37 @@ with open(bacon_file_name) as baconFile:
             break
         print(line)
 
-print('\n\nv4 - with for\n')
+
+
+#BEST 1: gdy potrzebne wszystko razem
+print('\n\nv4 - with read\n')
+with open(bacon_file_name) as baconFile:
+    content = baconFile.read()
+    print(content)
+
+#BEST 2: gdy każda linia osobno
+print('\n\nv5 - with for\n')
 with open(bacon_file_name) as baconFile:
     for line in baconFile:
         print(line)
 
-print('\n\nv5 - with read\n')
-with open(bacon_file_name) as baconFile:
-    content = baconFile.read()
-    print(content)
+
+# zapisywanie wyniku zmiennych i odczytywanie spowrotem
+import shelve
+shelfFile = shelve.open('mydata')
+cats = ['Zophie','Pooka','Bulbik']
+print(cats)
+shelfFile['cats'] = cats
+shelfFile.close()
+
+shelfFile = shelve.open('mydata')
+print(type(shelfFile))
+print(shelfFile['cats'])
+cats2 = shelfFile['cats']
+print(cats2)
+shelfFile.close()
+print('\n')
+
+with shelve.open('mydata') as shelfFile:
+    print(list(shelfFile.keys()))
+    print(list(shelfFile.values()))
